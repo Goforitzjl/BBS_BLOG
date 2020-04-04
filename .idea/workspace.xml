@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3b1e88df-1681-4065-9877-0be011336d98" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BBS_Blog/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/BBS_Blog/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BBS_Blog/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/BBS_Blog/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app1/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app1/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" afterPath="$PROJECT_DIR$/README.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -106,7 +104,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/README.txt" />
         <option value="$PROJECT_DIR$/BBS_Blog/__init__.py" />
         <option value="$PROJECT_DIR$/app1/models.py" />
         <option value="$PROJECT_DIR$/BBS_Blog/settings.py" />
@@ -116,6 +113,7 @@
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/app1/views.py" />
         <option value="$PROJECT_DIR$/templates/login.html" />
+        <option value="$PROJECT_DIR$/README.txt" />
       </list>
     </option>
   </component>
@@ -243,18 +241,18 @@
       <workItem from="1585973416750" duration="546000" />
       <workItem from="1585973994241" duration="15115000" />
       <workItem from="1585994082358" duration="247000" />
-      <workItem from="1585995203569" duration="1824000" />
+      <workItem from="1585995203569" duration="2440000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32909000" />
+    <option name="totallyTimeSpent" value="33525000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21342282" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21342282" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -268,7 +266,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" weight="0.3293944" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.20384048" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.20384048" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.3293944" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.23633678" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -305,13 +303,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/25b9c163-b0f3-4ac1-a7e4-62e9f343b70c/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -438,6 +429,13 @@
           <folding>
             <element signature="e#632#664#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
         </state>
       </provider>
     </entry>
