@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/bs/css/bootstrap.css">
+
+</head>
+<body>
+<h3>注册界面</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <form>
+            {% csrf_token %}
+            {% for filed in form %}
+                <div class="form-group">
+                <label for="">{{ filed.label}}</label>
+                {{filed }}
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <input type="button" class="btn btn-success pull-right" value="submit">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/static/jquery/jquery-3.3.1.js"></script>
+</html>
