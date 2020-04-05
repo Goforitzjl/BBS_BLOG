@@ -4,28 +4,103 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/static/bs/css/bootstrap.css">
+    <style>
+        #avatar_img {
+            margin-left: 20px;
+        }
 
+        #avatar {
+            display: none;
+        }
+
+        span.error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <h3>注册界面</h3>
 <div class="container">
     <div class="row">
         <div class="col-lg-6 col-lg-offset-3">
-            <form>
-            {% csrf_token %}
-            {% for filed in form %}
+            <form id="form">
+                {% csrf_token %}
+                {% for filed in form %}
+                    <div class="form-group">
+                        <label for="{{ filed.auto_id }}">{{ filed.label }}</label>
+                        {{ filed }}
+                        <span class="error pull-right"></span>
+                    </div>
+                {% endfor %}
                 <div class="form-group">
-                <label for="">{{ filed.label}}</label>
-                {{filed }}
+                    <label for="avatar">头像
+                        <img width="60" height="60" id="avatar_img" src="/static/img/avatar1.jpg" alt="加载失败">
+                    </label>
+                    <input type="file" id="avatar">
                 </div>
-            {% endfor %}
-            <div class="form-group">
-                <input type="button" class="btn btn-success pull-right" value="submit">
-            </div>
+                <div class="form-group">
+                    <input type="button" id="btn_reg" class="btn btn-success pull-right" value="submit">
+                </div>
             </form>
         </div>
     </div>
 </div>
 </body>
 <script src="/static/jquery/jquery-3.3.1.js"></script>
+<script>
+    $("#avatar").change(function () {
+
+        let file_obj = $(this)[0].files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file_obj);
+        reader.onload = function () {
+            $("#avatar_img").attr("src", reader.result)
+        };
+
+    });
+
+    $("#btn_reg").click(function () {
+        {#方法1：添加数据进入formdata#}
+        let form_list = $("#form").serializeArray();
+        let formdata = new FormData();
+        $.each(form_list, function (index, data) {
+            formdata.append(data.name, data.value)
+        });
+        formdata.append("avatar", $("#avatar")[0].files[0]);
+
+        {#方法2：添加数据进入formdata#}
+        {#formdata.append("user",$("#id_user").val());#}
+        {#formdata.append("pwd",$("#id_pwd").val());#}
+        {#formdata.append("re_pwd",$("#id_re_pwd").val());#}
+        {#formdata.append("email",$("#id_email").val());#}
+        {#formdata.append("csrfmiddlewaretoken",$("[name='csrfmiddlewaretoken']").val());#}
+        {#formdata.append("avatar",$("#avatar")[0].files[0]);#}
+
+        $.ajax({
+            url: "",
+            type: "post",
+            contentType: false,
+            processData: false,
+            data: formdata,
+            success: function (data) {
+                if (data.user) {
+                    window.location.href="/login/"
+                } else {
+                    $("span.error").html("");
+                    $(".form-group").removeClass("has-error");
+
+                    $.each(data.msg, function (field, error) {
+                        if(field == "__all__"){
+                            console.log(data);
+                            $("#id_re_pwd").next().html(error[0]).parent().addClass("has-error");
+                        }
+                        $("#id_" + field).next().html(error[0]);
+                        $("#id_"+field).parent().addClass("has-error");
+                    })
+                }
+            }
+        })
+    });
+</script>
+
 </html>

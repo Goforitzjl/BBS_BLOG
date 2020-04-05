@@ -8,7 +8,7 @@ class UserInfo(AbstractUser):
     """
     nid = models.AutoField(primary_key=True)
     telephone = models.CharField(max_length=11, null=True, unique=True)
-    avatar = models.FileField(upload_to='avatars/', default="/avatars/default.png")
+    avatar = models.FileField(upload_to='avatars/', default="avatars/default.jpg")
     create_time = models.DateTimeField(verbose_name="创建时间", auto_now_add=True)
 
     blog = models.OneToOneField(to='Blog', to_field='nid', null=True, on_delete=models.CASCADE)

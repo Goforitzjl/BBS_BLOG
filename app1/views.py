@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.contrib import auth
-
+from app1.models import UserInfo
 
 def login(request):
     if request.method == "POST":
@@ -30,8 +30,24 @@ def get_valid_image(request):
 
 
 def register(request):
-    from app1.self_functions.forms_functions import UserInfo
-    form = UserInfo()
+    from app1.self_functions.forms_functions import UserForm
+    if request.method == "POST":
+        response = {"user": None, "msg": None}
+        formdata = UserForm(request.POST)
+        if formdata.is_valid():
+            response["user"] = formdata.cleaned_data.get("user")
+            username = formdata.cleaned_data.get("user")
+            pwd = formdata.cleaned_data.get("pwd")
+            email = formdata.cleaned_data.get("email")
+            avatar_obj = request.FILES.get("avatar")
+            extral = {}
+            if avatar_obj:
+                extral = {"avatar": avatar_obj}
+            UserInfo.objects.create_user(username=username, password=pwd, email=email, **extral)
+        else:
+            response["msg"] = formdata.errors
+        return JsonResponse(response)
+    form = UserForm()
     return render(request, "register.html", {"form": form})
 
 

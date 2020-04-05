@@ -2,6 +2,7 @@
   <dictionary name="86135">
     <words>
       <w>csrfmiddlewaretoken</w>
+      <w>formdata</w>
     </words>
   </dictionary>
 </component>
