@@ -1,7 +1,9 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.contrib import auth
-from app1.models import UserInfo
+from app1.models import *
+from django.db.models import Count, Avg, Min, Max
+
 
 def login(request):
     if request.method == "POST":
@@ -52,7 +54,27 @@ def register(request):
 
 
 def index(request):
-    return render(request, "index.html")
+    article_list = Article.objects.all()
+    return render(request, "index.html", locals())
 
 
+def logout(request):
+    auth.logout(request)
+    return redirect("/index/")
 
+
+def home_site(request, username):
+    user = UserInfo.objects.filter(username=username).first()
+    if not user:
+        return HttpResponse("Not Found")
+    article_list = Article.objects.filter(user=user).all()
+    # 将每一个站点的category的title和category中的文章数量给分组查询出来
+    category_list = Category.objects.filter(blog=user.blog).values("pk").annotate(
+        c=Count("article__title")).values_list("title", "c")
+    # 将每一个站点的tag的title和tag中的文章数量给分组查询出来
+    tag_list = Tag.objects.filter(blog=user.blog).values("pk").annotate(
+        c=Count("article__title")).values_list("title", "c")
+    # 将每一个站点的文章按年月来分类
+    y_m_date = Article.objects.extra(select={
+        "y_m_date": "date_format(create_time,'%%Y-%%m')"}).values_list("title", "y_m_date")
+    return render(request, "home_site.html", locals())

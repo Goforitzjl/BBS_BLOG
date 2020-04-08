@@ -3,8 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
+    <link rel="stylesheet" href="/static/bs/css/bootstrap.css">
+    <script src="/static/jquery/jquery-3.3.1.js"></script>
+    <script src="/static/bs/js/bootstrap.js"></script>
+    <style>
+        #login_image {
+            position: relative;
+            left: 15px;
+            font-size: 20px;
+        }
+
+        .glyphicon-comment {
+            margin-right: 5px;
+        }
+
+        .glyphicon-thumbs-up {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
-<p> Hi {{ request.user.username }}</p>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">博客园</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">园子 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">新闻</a></li>
+                <li><a href="#">随笔</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_authenticated %}
+                    <li><a href="#">Hi,{{ request.user.username }}</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">个人博客</a></li>
+                            <li><a href="#">修改密码</a></li>
+                            <li><a href="#">修改头像</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/logout/">注销</a></li>
+                        </ul>
+                    </li>
+
+                {% else %}
+
+                    <li>
+                    <li><a href="#" class="glyphicon glyphicon-user" id="login_image"></a></li>
+
+                    <li><a href="/login/">登录</a></li></li>
+                    <li><a href="/register/">注册</a></li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+
+<div class="container-fluid">
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                Panel 1
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-body">
+                Panel 2
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="article_list">
+            {% for article in article_list %}
+                <div class="article_item">
+                    <span> <a href="#">{{ article.title }}</a></span>
+                    <span class="media-left"><img width="50px" height="50px" src="/media/{{ article.user.avatar }}"
+                                                  alt="加载失败"></span>
+                    <span class="media-right"><p>{{ article.desc }}</p></span>
+
+                    <div class="small">
+                        <a href="">{{ article.user.username }}</a> &nbsp;&nbsp;
+                        <span>发布于:</span>&nbsp;
+                        <span>{{ article.create_time|date:"Y-m-d H:m" }}</span>&nbsp;&nbsp;
+                        <span class="glyphicon glyphicon-comment"></span>评论({{ article.comment_count }})&nbsp;&nbsp;
+                        <span class="glyphicon glyphicon-thumbs-up"></span>点赞({{ article.up_count }})
+                    </div>
+
+                    <br>
+                </div>
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+        <div class="panel panel-primary">
+            <div class="panel-body">
+                Panel 1
+            </div>
+        </div>
+        <div class="panel panel-warning">
+            <div class="panel-body">
+                Panel 2
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

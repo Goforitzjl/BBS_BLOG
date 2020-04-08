@@ -24,6 +24,8 @@ urlpatterns = [
     path('login/', views.login),
     path('get_valid_image/', views.get_valid_image),
     path('index/', views.index),
+    path('logout/', views.logout),
     path('register/', views.register),
+    re_path(r'^(?P<username>\w+)$', views.home_site),
     re_path(r'media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
 ]
