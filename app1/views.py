@@ -63,18 +63,38 @@ def logout(request):
     return redirect("/index/")
 
 
-def home_site(request, username):
+def home_site(request, username, **kwargs):
     user = UserInfo.objects.filter(username=username).first()
     if not user:
         return HttpResponse("Not Found")
+
     article_list = Article.objects.filter(user=user).all()
+    if kwargs:
+        condition = kwargs.get("condition")
+        param = kwargs.get("param")
+        if condition == "category":
+            article_list = article_list.filter(category__title=param)
+        elif condition == "tag":
+            article_list = article_list.filter(tags__title=param)
+        else:
+            year, month = param.split("-")
+            article_list = article_list.filter(create_time__year=year,
+                                               create_time__month=month)
+
     # 将每一个站点的category的title和category中的文章数量给分组查询出来
     category_list = Category.objects.filter(blog=user.blog).values("pk").annotate(
         c=Count("article__title")).values_list("title", "c")
     # 将每一个站点的tag的title和tag中的文章数量给分组查询出来
     tag_list = Tag.objects.filter(blog=user.blog).values("pk").annotate(
         c=Count("article__title")).values_list("title", "c")
-    # 将每一个站点的文章按年月来分类
-    y_m_date = Article.objects.extra(select={
-        "y_m_date": "date_format(create_time,'%%Y-%%m')"}).values_list("title", "y_m_date")
+    # 将每一个站点的文章按年月来分类,
+    # 方法1
+    # y_m_date = Article.objects.extra(select={
+    #     "y_m_date": "date_format(create_time,'%%Y-%%m')"}).values_list("title", "y_m_date")
+    # 方法2
+    from django.db.models.functions import TruncMonth
+    date_list = Article.objects.filter(user=user).annotate(month=TruncMonth("create_time")
+                                                           ).values("month").annotate(c=Count("nid")).values_list(
+        "month", "c")
+    print("date_list",date_list)
     return render(request, "home_site.html", locals())
