@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/bs/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/bs/css/base.css">
+    <script src="/static/jquery/jquery-3.3.1.js"></script>
+</head>
+<body>
+<div class="header">
+    <p>{{ user.blog.title }}</p>
+    <div class="header-choose">
+        <ul class="choose-item">
+            <li><a href="#">管理后台</a></li>
+            <li><a href="#">联系</a></li>
+            <li><a href="#">订阅</a></li>
+            <li><a href="#">随笔</a></li>
+
+        </ul>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="col-md-3">
+    {% load my_tags %}
+        {% Classfication user %}
+    </div>
+
+        {% block article_detail %}
+
+        {% endblock %}
+
+</div>
+</body>
+</html>

@@ -26,8 +26,9 @@ urlpatterns = [
     path('index/', views.index),
     path('logout/', views.logout),
     path('register/', views.register),
+    path('digg/', views.digg),
     re_path(r'^(?P<username>\w+)$', views.home_site),
     re_path(r'^(?P<username>\w+)/(?P<condition>tag|category|date)/(?P<param>.*)/$', views.home_site),
-
+    re_path(r'^(?P<username>\w+)/article/(?P<article_id>\d+)/$', views.article_detail),
     re_path(r'media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
 ]

@@ -1,92 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/static/bs/css/bootstrap.css">
-</head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
-    .header {
-        margin-bottom: 10px;
-    }
-
-    .header > p {
-        font-size: 20px;
-        color: white;
-        position: relative;
-        left: 20px;
-        top: 8px;
-    }
-
-    .header {
-        width: 100%;
-        height: 60px;
-        background-color: #2aabd2;
-    }
-
-
-    .choose-item li {
-        float: right;
-        padding: 5px;
-        list-style-type: none;
-
-    }
-
-    .choose-item li a {
-        text-decoration: none;
-    }
-
-</style>
-<body>
-<div class="header">
-    <p>{{ user.blog.title }}</p>
-    <div class="header-choose">
-        <ul class="choose-item">
-            <li><a href="#">管理后台</a></li>
-            <li><a href="#">联系</a></li>
-            <li><a href="#">订阅</a></li>
-            <li><a href="#">随笔</a></li>
-
-        </ul>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">类别分类</div>
-            <div class="panel-body">
-                {% for category in category_list %}
-                    <a href="/{{ username }}/category/{{ category.0 }}">{{ category.0 }}({{ category.1 }})</a>
-                    <br>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="panel panel-warning">
-            <div class="panel-heading">标签分类</div>
-            <div class="panel-body">
-                {% for tag in tag_list %}
-                    <a href="/{{ username }}/tag/{{ tag.0 }}">  {{ tag.0 }}({{ tag.1 }})</a>
-                    <br>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="panel panel-primary">
-            <div class="panel-heading">日期分类</div>
-            <div class="panel-body">
-                {% for date in date_list %}
-                    <a href="/{{ username }}/date/{{ date.0|date:'Y-m' }}">{{ date.0|date:"Y-m" }}({{ date.1 }})</a>
-                    <br>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+{% extends "base.html" %}
+{% block article_detail %}
     <div class="col-md-9">
         <div class="article_list">
             {% for article in article_list %}
@@ -111,7 +24,5 @@
 
         </div>
     </div>
-</div>
+{% endblock %}
 
-</body>
-</html>

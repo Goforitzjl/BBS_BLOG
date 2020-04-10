@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="/static/bs/css/article_detail.css">
+{% extends "base.html" %}
+{% block article_detail %}
+    {% csrf_token %}
+    <div class="col-md-9">
+        <h3>{{ article.title }}</h3>
+        <p>{{ article.content|safe }}</p>
+        <div id="div_digg">
+            <div class="diggit action">
+                <span class="diggnum" id="digg_count">{{ article.up_count }}</span>
+            </div>
+
+            <div class="buryit action">
+                <span class="burynum" id="bury_count">{{ article.down_count }}</span>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="diggword" id="digg_tips" style="color: red;">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $("#div_digg .action").click(function () {
+            let is_up = $(this).hasClass("diggit");
+            $obj=$(this).children("span");
+            $.ajax({
+                url: "/digg/",
+                type: "post",
+                data: {
+                    "csrfmiddlewaretoken": $("[name='csrfmiddlewaretoken']").val(),
+                    "is_up": is_up,
+                    "article_id": {{ article.pk }}
+                },
+                success: function (data) {
+                    if (data.state) {
+                        {#if (data.handled) {#}
+                        {#    $("#digg_tips").html("你已经支持过了")#}
+                        {# } #}
+                        {#else {#}
+                        {#    $("#digg_tips").html("你已经反对过了")#}
+                        {##}
+                        {# }#}
+                            let msg = data.handled?"你已经支持过了":"你已经反对过了";
+                            $("#digg_tips").html(msg)
+                    } else {
+                        {#if (data.handled) {#}
+                        {#    $("#digg_tips").html("支持成功");#}
+                        {#    let val = parseInt($("#digg_count").text());#}
+                        {#    $("#digg_count").text(val+1)#}
+                        {##}
+                        {# } #}
+                        {#else {#}
+                        {#    $("#digg_tips").html("反对成功");#}
+                        {#    let val = parseInt($("#bury_count").text());#}
+                        {#    $("#bury_count").text(val+1)#}
+                        {# }#}
+                            let val =parseInt($obj.text());
+                            $obj.text(val+1)
+
+                    }
+                    setTimeout(function () {
+                        $("#digg_tips").html("")
+
+                    }, 1000)
+                }
+            })
+        })
+
+    </script>
+{% endblock %}

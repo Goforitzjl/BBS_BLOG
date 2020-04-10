@@ -2,7 +2,9 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.http import JsonResponse
 from django.contrib import auth
 from app1.models import *
-from django.db.models import Count, Avg, Min, Max
+from django.db.models import F
+from django.http import JsonResponse
+import json
 
 
 def login(request):
@@ -81,20 +83,40 @@ def home_site(request, username, **kwargs):
             article_list = article_list.filter(create_time__year=year,
                                                create_time__month=month)
 
-    # 将每一个站点的category的title和category中的文章数量给分组查询出来
-    category_list = Category.objects.filter(blog=user.blog).values("pk").annotate(
-        c=Count("article__title")).values_list("title", "c")
-    # 将每一个站点的tag的title和tag中的文章数量给分组查询出来
-    tag_list = Tag.objects.filter(blog=user.blog).values("pk").annotate(
-        c=Count("article__title")).values_list("title", "c")
-    # 将每一个站点的文章按年月来分类,
-    # 方法1
-    # y_m_date = Article.objects.extra(select={
-    #     "y_m_date": "date_format(create_time,'%%Y-%%m')"}).values_list("title", "y_m_date")
-    # 方法2
-    from django.db.models.functions import TruncMonth
-    date_list = Article.objects.filter(user=user).annotate(month=TruncMonth("create_time")
-                                                           ).values("month").annotate(c=Count("nid")).values_list(
-        "month", "c")
-    print("date_list",date_list)
-    return render(request, "home_site.html", locals())
+    context = {"user": user, "article_list": article_list}
+    return render(request, "home_site.html", context)
+
+
+def article_detail(request, username, article_id):
+    user = UserInfo.objects.filter(username=username).first()
+    article = Article.objects.filter(user=user).filter(pk=article_id).first()
+    context = {"user": user, "article": article}
+    return render(request, "article_detail.html", context)
+
+
+def digg(request):
+    user_id = request.user.pk
+    article_id = request.POST.get("article_id")
+    is_comment_user = ArticleUpDown.objects.filter(user_id=user_id, article_id=article_id)
+    is_up = json.loads(request.POST.get("is_up"))
+    response = {"state": None, "handled": None}
+    if not is_comment_user:
+        response["state"] = False
+        ArticleUpDown.objects.create(article_id=article_id, is_up=is_up, user_id=user_id)
+        if is_up:
+            Article.objects.filter(pk=article_id).update(up_count=F("up_count") + 1)
+            response["handled"] = True
+
+        else:
+            Article.objects.filter(pk=article_id).update(down_count=F("down_count") + 1)
+            response["handled"] = False
+
+    else:
+        response["state"] = True
+        handle = is_comment_user.values("is_up").first()
+        # print("handle",handle["is_up"])
+        if handle["is_up"]:
+            response["handled"] = True
+        else:
+            response["handled"] = False
+    return JsonResponse(response)

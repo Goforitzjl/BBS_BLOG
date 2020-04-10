@@ -1,0 +1,31 @@
+<div>
+            <div class="panel panel-default">
+            <div class="panel-heading">类别分类</div>
+            <div class="panel-body">
+                {% for category in category_list %}
+                    <a href="/{{ user.username }}/category/{{ category.0 }}">{{ category.0 }}({{ category.1 }})</a>
+                    <br>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="panel panel-warning">
+            <div class="panel-heading">标签分类</div>
+            <div class="panel-body">
+                {% for tag in tag_list %}
+                    <a href="/{{ user.username }}/tag/{{ tag.0 }}">  {{ tag.0 }}({{ tag.1 }})</a>
+                    <br>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">日期分类</div>
+            <div class="panel-body">
+                {% for date in date_list %}
+                    <a href="/{{ user.username }}/date/{{ date.0|date:'Y-m' }}">{{ date.0|date:"Y-m" }}({{ date.1 }})</a>
+                    <br>
+                {% endfor %}
+            </div>
+        </div>
+</div>
